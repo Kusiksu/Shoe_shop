@@ -1,10 +1,10 @@
 
 from __future__ import annotations
 
-from pathlib import Path
 import tkinter as tk
-from tkinter import ttk
+from pathlib import Path
 from tkinter import font as tkfont
+from tkinter import ttk
 
 from PIL import Image, ImageTk
 

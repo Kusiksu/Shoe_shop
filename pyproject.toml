@@ -1,0 +1,28 @@
+[project]
+name = "shoe-store"
+version = "1.0.0"
+description = "Учебный проект ООО «Обувь» (Python + Tkinter + SQLite)"
+requires-python = ">=3.11"
+readme = "README.md"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+src = ["src"]
+exclude = ["__pycache__"]
+
+[tool.ruff.lint]
+select = [
+  "E",   # pycodestyle errors
+  "F",   # pyflakes
+  "I",   # isort
+  "UP",  # pyupgrade
+  "B",   # flake8-bugbear
+  "SIM", # flake8-simplify
+]
+ignore = [
+  "E501", # длина строки — не блокируем (Tkinter-формы длинные)
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["db", "importer", "repositories", "ui_helpers"]

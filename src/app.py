@@ -1,16 +1,16 @@
 
 from __future__ import annotations
 
-import shutil
+import contextlib
+import tkinter as tk
 import traceback
 from dataclasses import dataclass
 from pathlib import Path
-import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
 from PIL import Image
 
-from db import initialize_database
+from db import initialize_database, query_one
 from importer import build_database
 from repositories import (
     delete_order,
@@ -19,7 +19,6 @@ from repositories import (
     get_order,
     get_order_items,
     get_orders,
-    get_permissions,
     get_product,
     get_products,
     get_user_by_credentials,
@@ -30,18 +29,15 @@ from repositories import (
     list_manufacturers,
     list_pickup_points,
     list_products_short,
-    list_statuses,
     list_statuses_full,
     list_suppliers,
     list_units,
     next_order_id,
-    next_product_id,
     product_is_used_in_orders,
     update_order,
     update_product,
 )
 from ui_helpers import (
-    ACCENT,
     ACCENT_RING,
     CARD_BORDER,
     CARD_SURFACE,
@@ -102,10 +98,8 @@ class ShoeStoreApp(tk.Tk):
         self.geometry("1480x900")
         self.minsize(1200, 800)
         self.configure(bg=WHITE)
-        try:
+        with contextlib.suppress(Exception):
             self.iconbitmap(RESOURCES_DIR / "Icon.ico")
-        except Exception:
-            pass
         configure_styles(self)
         self.current_frame: tk.Frame | None = None
         self.logo_image = load_logo_preserve_aspect(RESOURCES_DIR / "Icon.png", max_side=80)
@@ -945,7 +939,6 @@ class OrderForm(tk.Toplevel):
         customers = list_customers()
         pickup_points = list_pickup_points()
         statuses_full = list_statuses_full()
-        statuses = [item["status_name"] for item in statuses_full]
         products = list_products_short()
 
         self.customer_map = {item["full_name"]: item["user_id"] for item in customers}
@@ -1040,11 +1033,8 @@ class OrderForm(tk.Toplevel):
         customer_name = next((row["full_name"] for row in customers if row["user_id"] == order["customer_id"]), "")
         points = list_pickup_points()
         point_value = next((f'{row["pickup_point_id"]}: {row["address"]}' for row in points if row["pickup_point_id"] == order["pickup_point_id"]), "")
-        statuses_full = list_statuses_full()
-        statuses = [item["status_name"] for item in statuses_full]
-        status_name = next((name for name in statuses if True), "")
-        from repositories import query_one as _q
-        status_row = _q("SELECT status_name FROM order_statuses WHERE status_id = ?", [order["status_id"]])
+
+        status_row = query_one("SELECT status_name FROM order_statuses WHERE status_id = ?", [order["status_id"]])
         status_name = status_row["status_name"]
 
         self.customer_var.set(customer_name)
@@ -1106,7 +1096,6 @@ class OrderForm(tk.Toplevel):
 
 def ensure_data() -> None:
     """При старте: создать БД при отсутствии/пустоте или пересобрать, если нет пользователей/товаров."""
-    from db import query_one
 
     def _fail(message: str, exc: BaseException) -> None:
         traceback.print_exc()

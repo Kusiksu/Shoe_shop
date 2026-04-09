@@ -1,15 +1,13 @@
 
 from __future__ import annotations
 
-import re
-import shutil
 from pathlib import Path
 from typing import Any
 
 import pandas as pd
 from PIL import Image
 
-from db import DB_PATH, execute, initialize_database, query_one
+from db import DB_PATH, execute, initialize_database
 from repositories import ensure_lookup
 
 BASE_DIR = Path(__file__).resolve().parent.parent

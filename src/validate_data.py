@@ -1,7 +1,7 @@
 
 from __future__ import annotations
 
-from db import query_one, query_all
+from db import query_one
 
 
 def main() -> None:

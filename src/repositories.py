@@ -5,7 +5,6 @@ from typing import Any
 
 from db import execute, query_all, query_one
 
-
 ROLE_NAME_MAP = {
     "Гость": "Гость",
     "Авторизированный клиент": "Авторизированный клиент",
