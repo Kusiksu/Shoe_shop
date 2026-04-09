@@ -1,8 +1,7 @@
 # Учебный проект "ООО Обувь"
 
-[![Maintainability](https://img.shields.io/badge/Maintainability-подключите_Code_Climate-lightgrey?logo=codeclimate)](https://codeclimate.com/)
-
-*Когда репозиторий будет добавлен на [Code Climate](https://codeclimate.com/), в настройках репозитория откройте **Badges** и замените эту строку на официальный Markdown бейджа **Maintainability** (тогда отобразится реальная оценка поддерживаемости).*
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=Kusiksu_Shoe_shop&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Kusiksu_Shoe_shop)
+[![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=Kusiksu_Shoe_shop&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=Kusiksu_Shoe_shop)
 
 ## Что сделано
 - база данных SQLite в 3НФ;
@@ -70,13 +69,9 @@ python -m ruff check src
 
 Проверка также запускается в GitHub Actions (файл `.github/workflows/lint.yml`) при push/PR в ветки `main` или `master`.
 
-## Code Climate
+## SonarCloud
 
-В корне репозитория лежит `.codeclimate.yml` (дублирование кода, метки `FIXME` и т.п.). Чтобы сервис заработал:
-
-1. Зарегистрируйтесь на [codeclimate.com](https://codeclimate.com/) и подключите GitHub/GitLab-репозиторий с этим проектом.
-2. Дождитесь первого анализа.
-3. Вставьте рабочий бейдж **Maintainability** в начало `README` (см. подсказку под заголовком).
+Проект на [SonarCloud](https://sonarcloud.io/) (ключ `Kusiksu_Shoe_shop`, организация `kusiksu`). Бейджи в начале README указывают на этот проект.
 
 ## Рефакторинг (выполненный в рамках настройки качества)
 
@@ -106,7 +101,6 @@ run.bat
 ## Структура проекта
 - `pyproject.toml` — метаданные проекта и настройки **Ruff**
 - `requirements-dev.txt` — зависимости для разработки (линтер)
-- `.codeclimate.yml` — конфигурация [Code Climate](https://codeclimate.com/)
 - `.github/workflows/lint.yml` — CI: проверка `ruff` на GitHub
 - `src/app.py` — главное приложение
 - `src/ui_helpers.py` — стили интерфейса (Приложение 3), загрузка изображений
